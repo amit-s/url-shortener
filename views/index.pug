@@ -15,13 +15,13 @@ html
 			h3 Example creation usage
 			code= "https://" + hostname + "/new/https://www.google.com"
 			br
-			code https://mywebsite.herokuapp.com/new/http://foo.com:80
+			code= "https://" + hostname + "/new/http://foo.com:80"
 
 			h3 Example creation output:
-			code { "original_url":"http://foo.com:80", "short_url":"https://mywebsite.herokuapp.com/8170" }
+			code= '{ "original_url":"http://foo.com:80", "short_url":"https://' + hostname + '/8170" }'
 
 			h3 Usage:
-			code https://mywebsite.herokuapp.com/2871
+			code= "https://" + hostname + "/2871"
 
 			h3 Will redirect to:
 			code https://www.google.com/
