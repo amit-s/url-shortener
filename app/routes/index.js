@@ -4,7 +4,7 @@ module.exports = function(app,db){
 
 	app.route('/')
 		.get(function(req,res){
-			res.render('index.pug');
+			res.render('index.pug', {hostname: req.headers.host});
 		});
 
 	app.route('/*')
