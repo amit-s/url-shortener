@@ -9,8 +9,9 @@ let app = express();
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+console.log(process.env.MONGOLAB_URI);
 
-let mongoURL = 'mongodb://localhost:27017/urlshortener';
+let mongoURL = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/urlshortener';
 
 mongo.connect(mongoURL, function(err,db){
 

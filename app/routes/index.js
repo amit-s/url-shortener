@@ -4,8 +4,17 @@ module.exports = function(app,db){
 
 	app.route('/')
 		.get(function(req,res){
-
 			res.render('index.pug');
+		});
+
+	app.route('/*')
+		.get(function(req,res, next){
+						
+			if(req.params[0].slice(0,3) == 'new'){
+				return next();
+			}
+			//console.log(req.params[0]);
+			api.handleShortURL(req,res,next);
 
 		});
 

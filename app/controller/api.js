@@ -4,6 +4,8 @@ exports.handleURL = function(req,res,next){
 	let hostname = req.headers.host;
 	let db = req.app.db;
 
+console.log(hostname);
+
 	let cursor = db.collection('links').find({});
 	let projection = {_id: 0, original_url: 1, short_url: 1, short_path:1};			
 	cursor.project(projection);
@@ -29,15 +31,36 @@ exports.handleURL = function(req,res,next){
 			
 			db.collection('links').insert({original_url, short_url, short_path},function(err){
 				if (err) throw err;
-				console.log(`new url ${original_url} added to DB`);
+				console.log(`new url ${original_url} added to database`);
 				res.json({original_url, short_url});
 			});
-		}else{
-		console.log('here');
+		}else{		
 		let doc = docs[existing_link_position];				
 		res.json({original_url: doc.original_url, short_url: doc.short_url});
 		}				
 	});			
+}
+
+exports.handleShortURL = function(req,res,next){
+	let db = req.app.db;
+	let short_url = req.params[0];
+	let cursor = db.collection('links').find({short_url: short_url});
+	projection = {_id:0, original_url: 1};
+	cursor.project(projection);
+	cursor.toArray(function(err,doc){
+		if(err) throw err;
+		if(doc.length < 1){
+			res.end('This shortened URL is not in the database. Please enter a valid shortened URL.');
+			return next();
+		}
+		res.redirect(doc[0].original_url);
+	});
+}
+
+
+exports.validateURL =  function (url){	
+	let urlRegex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+	return urlRegex.test(url);
 }
 
 createShortPath =  function(list){
@@ -46,9 +69,4 @@ createShortPath =  function(list){
 		short = Math.floor(Math.random()*8999 + 1000);		
 	}
 	return short;	
-}
-
-exports.validateURL =  function (url){	
-	let urlRegex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-	return urlRegex.test(url);
 }
