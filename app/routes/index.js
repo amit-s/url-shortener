@@ -1,4 +1,4 @@
-let api = require(process.cwd() + '/app/controller/urlshortener.js');
+let api = require(process.cwd() + '/app/controller/api.js');
 
 module.exports = function(app,db){
 
