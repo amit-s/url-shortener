@@ -12,10 +12,8 @@ module.exports = function(app,db){
 						
 			if(req.params[0].slice(0,3) == 'new'){
 				return next();
-			}
-			//console.log(req.params[0]);
+			}			
 			api.handleShortURL(req,res,next);
-
 		});
 
 	app.route('/new/*')
@@ -26,7 +24,6 @@ module.exports = function(app,db){
 				res.end("Please enter a valid URL");
 				return next();
 			}
-
 			api.handleURL(req,res,next);			
 		});
 }
