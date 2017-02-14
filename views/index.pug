@@ -1,0 +1,29 @@
+html
+	head
+		link(rel="stylesheet" type="text/css" href="./css/styles.css")
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+		
+		title URL Shortener Microservice
+	body
+		#content
+			h1 API Basejump: URL Shortener Microservice
+			blockquote
+				p User stories:
+				ul
+					li I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.
+					li When I visit that shortened URL, it will redirect me to my original link
+			h3 Example creation usage
+			code https://mywebsite.herokuapp.com/new/https://www.google.com
+			br
+			code https://mywebsite.herokuapp.com/new/http://foo.com:80
+
+			h3 Example creation output:
+			code { "original_url":"http://foo.com:80", "short_url":"https://mywebsite.herokuapp.com/8170" }
+
+			h3 Usage:
+			code https://mywebsite.herokuapp.com/2871
+
+			h3 Will redirect to:
+			code https://www.google.com/
+
+
