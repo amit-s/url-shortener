@@ -4,7 +4,7 @@ exports.handleURL = function(req,res,next){
 	let hostname = req.headers.host;
 	let db = req.app.db;
 
-console.log(hostname);
+//console.log(hostname);
 
 	let cursor = db.collection('links').find({});
 	let projection = {_id: 0, original_url: 1, short_url: 1, short_path:1};			
@@ -43,8 +43,9 @@ console.log(hostname);
 
 exports.handleShortURL = function(req,res,next){
 	let db = req.app.db;
-	let short_url = req.params[0];
-	let cursor = db.collection('links').find({short_url: short_url});
+	let short_path = +req.params[0];
+	console.log(typeof short_path);
+	let cursor = db.collection('links').find({short_path: short_path});
 	projection = {_id:0, original_url: 1};
 	cursor.project(projection);
 	cursor.toArray(function(err,doc){
