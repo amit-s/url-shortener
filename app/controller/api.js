@@ -26,7 +26,7 @@ exports.handleURL = function(req,res,next){
 
 		if((docs.length<1)||(existing_link_position == -1)){
 			let short_path = createShortPath(short_path_list);					
-			let short_url = `${hostname}/${short_path}`;
+			let short_url = `http://${hostname}/${short_path}`;
 			
 			
 			db.collection('links').insert({original_url, short_url, short_path},function(err){
