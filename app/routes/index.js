@@ -21,7 +21,7 @@ module.exports = function(app,db){
 			let original_url = req.params[0];			
 			
 			if(!api.validateURL(original_url)){
-				res.end("Please enter a valid URL");
+				res.json({error: "Invalid URL"});
 				return next();
 			}
 			api.handleURL(req,res,next);			

@@ -47,7 +47,7 @@ exports.handleShortURL = function(req,res,next){
 	cursor.toArray(function(err,doc){
 		if(err) throw err;
 		if(doc.length < 1){
-			res.end('This shortened URL is not in the database. Please enter a valid shortened URL.');
+			res.json({error: "Shortened URL is not in database"});
 			return next();
 		}
 		res.redirect(doc[0].original_url);
