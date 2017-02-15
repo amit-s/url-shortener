@@ -5,9 +5,6 @@ let mongo = require('mongodb').MongoClient;
 let routes = require(__dirname + '/app/routes/index.js');
 
 let app = express();
-app.set('views', './views');
-app.set('view engine', 'pug');
-
 let mongoURL = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/urlshortener';
 
 mongo.connect(mongoURL, function(err,db){
@@ -19,6 +16,8 @@ mongo.connect(mongoURL, function(err,db){
 	}
 
 	app.set('port', (process.env.PORT || 3000));
+	app.set('views', './views');
+	app.set('view engine', 'pug');
 	app.use('/css', express.static(__dirname + '/public/css'));
 	app.db = db;
 
